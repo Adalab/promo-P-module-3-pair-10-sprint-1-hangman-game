@@ -1,7 +1,14 @@
 // Fichero src/components/App.js
 import '../styles/App.scss';
+import { useState } from 'react';
 
 function App() {
+  const [numberOfErrors, setNumberOfErrors] = useState(0);
+  const handlePaint = () => {
+    const changeNumber = numberOfErrors + 1;
+    setNumberOfErrors(changeNumber); //A la función setNumber, le doy el valor de la nueva const.
+  };
+
   return (
     <div className="page">
       <header>
@@ -9,6 +16,9 @@ function App() {
       </header>
       <main className="main">
         <section>
+          <button type="button" onClick={handlePaint}>
+            Incrementar
+          </button>
           <div className="solution">
             <h2 className="title">Solución:</h2>
             <ul className="letters">
@@ -48,7 +58,7 @@ function App() {
             />
           </form>
         </section>
-        <section className="dummy error-5">
+        <section className={`dummy error-${numberOfErrors}`}>
           <span className="error-13 eye"></span>
           <span className="error-12 eye"></span>
           <span className="error-11 line"></span>
