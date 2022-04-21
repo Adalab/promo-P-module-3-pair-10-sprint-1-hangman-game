@@ -4,6 +4,21 @@ import { useState } from 'react';
 
 function App() {
   const [numberOfErrors, setNumberOfErrors] = useState(0);
+  const [lastLetter, setLastLetter] = useState('');
+  const [message, setMessage] = useState('');
+  const handleInput = (ev) => {
+    const newValue = ev.target.value;
+    setLastLetter(newValue);
+    console.log(newValue);
+    if (newValue.match('[A-Za-zÑñÁÉÍÓÚáéíóú]') !== null) {
+      console.log('Es valida');
+      setMessage('');
+    } else {
+      console.log('Introduce otro valor');
+      setMessage('Introduce otro valor');
+    }
+    // newValue.replace(/[Ç,1234567890?¿!¡]/gi, 'Introduce una letra válida');
+  };
   const handlePaint = () => {
     const changeNumber = numberOfErrors + 1;
     setNumberOfErrors(changeNumber); //A la función setNumber, le doy el valor de la nueva const.
@@ -55,7 +70,10 @@ function App() {
               type="text"
               name="last-letter"
               id="last-letter"
+              value={lastLetter}
+              onChange={handleInput}
             />
+            <p className="text">{message}</p>
           </form>
         </section>
         <section className={`dummy error-${numberOfErrors}`}>
