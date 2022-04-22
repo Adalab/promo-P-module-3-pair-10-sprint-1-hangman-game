@@ -6,10 +6,29 @@ function App() {
   const [numberOfErrors, setNumberOfErrors] = useState(0);
   const [lastLetter, setLastLetter] = useState('');
   const [message, setMessage] = useState('');
+  const [word, setWord] = useState('katakroker');
+  const [userLetters, setUserLetters] = useState([]);
+
+  const renderSolutionLetters = () => {
+    const wordLetters = word.split('');
+    console.log(wordLetters);
+
+    return wordLetters.map((letter, index) => {
+      if (wordLetters !== userLetters) {
+        console.log(wordLetters);
+        return <li className="letter" key={index}></li>;
+      } else {
+        return <li className="letter">{lastLetter}</li>;
+      }
+    });
+  };
+
   const handleInput = (ev) => {
     const newValue = ev.target.value;
     setLastLetter(newValue);
     console.log(newValue);
+    const lettersUsed = [...userLetters, lastLetter];
+    setUserLetters(lettersUsed);
     if (newValue.match('[A-Za-zÑñÁÉÍÓÚáéíóú]') !== null) {
       console.log('Es valida');
       setMessage('');
@@ -17,11 +36,10 @@ function App() {
       console.log('Introduce otro valor');
       setMessage('Introduce otro valor');
     }
-    // newValue.replace(/[Ç,1234567890?¿!¡]/gi, 'Introduce una letra válida');
   };
   const handlePaint = () => {
     const changeNumber = numberOfErrors + 1;
-    setNumberOfErrors(changeNumber); //A la función setNumber, le doy el valor de la nueva const.
+    setNumberOfErrors(changeNumber);
   };
 
   return (
@@ -36,28 +54,12 @@ function App() {
           </button>
           <div className="solution">
             <h2 className="title">Solución:</h2>
-            <ul className="letters">
-              <li className="letter">k</li>
-              <li className="letter">a</li>
-              <li className="letter"></li>
-              <li className="letter">a</li>
-              <li className="letter">k</li>
-              <li className="letter">r</li>
-              <li className="letter"></li>
-              <li className="letter">k</li>
-              <li className="letter">e</li>
-              <li className="letter">r</li>
-            </ul>
+
+            <ul className="letters">{renderSolutionLetters()}</ul>
           </div>
           <div className="error">
             <h2 className="title">Letras falladas:</h2>
-            <ul className="letters">
-              <li className="letter">f</li>
-              <li className="letter">q</li>
-              <li className="letter">h</li>
-              <li className="letter">p</li>
-              <li className="letter">x</li>
-            </ul>
+            <ul className="letters">{renderSolutionLetters()}</ul>
           </div>
           <form className="form">
             <label className="title" htmlFor="last-letter">
