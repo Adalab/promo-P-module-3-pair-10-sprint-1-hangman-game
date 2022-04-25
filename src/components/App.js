@@ -14,11 +14,27 @@ function App() {
     console.log(wordLetters);
 
     return wordLetters.map((letter, index) => {
-      if (wordLetters !== userLetters) {
+      if (userLetters.includes(letter)) {
         console.log(wordLetters);
-        return <li className="letter" key={index}></li>;
+        return (
+          <li className="letter" key={index}>
+            {letter}
+          </li>
+        );
       } else {
-        return <li className="letter">{lastLetter}</li>;
+        return <li className="letter" key={index}></li>;
+      }
+    });
+  };
+
+  const renderErrorLetters = () => {
+    return userLetters.map((letter, index) => {
+      if (!word.includes(letter)) {
+        return (
+          <li className="letter" key={index}>
+            {letter}
+          </li>
+        );
       }
     });
   };
@@ -26,10 +42,10 @@ function App() {
   const handleInput = (ev) => {
     const newValue = ev.target.value;
     setLastLetter(newValue);
-    console.log(newValue);
-    const lettersUsed = [...userLetters, lastLetter];
-    setUserLetters(lettersUsed);
     if (newValue.match('[A-Za-zÑñÁÉÍÓÚáéíóú]') !== null) {
+      console.log(newValue);
+      const lettersUsed = [...userLetters, newValue];
+      setUserLetters(lettersUsed);
       console.log('Es valida');
       setMessage('');
     } else {
@@ -59,7 +75,7 @@ function App() {
           </div>
           <div className="error">
             <h2 className="title">Letras falladas:</h2>
-            <ul className="letters">{renderSolutionLetters()}</ul>
+            <ul className="letters">{renderErrorLetters()}</ul>
           </div>
           <form className="form">
             <label className="title" htmlFor="last-letter">
